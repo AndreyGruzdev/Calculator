@@ -20,8 +20,33 @@ public class Decision {
     }
 
 
-    public static String[] toArray(String text) {
-        return text.split("[+-/*]");
+    public static String[] toArray(String text) throws IOException {
+        String num1;
+        String arithmeticSign;
+        String num2;
+        String[] arrayOfDecision = new String[3];
+        char[] chars = text.toCharArray();
+
+        try {
+            num1 = String.valueOf(chars[0]);
+            int i = 1;
+            while (chars[i] != '+' && chars[i] != '-' &&
+                    chars[i] != '*'&& chars[i] != '/') {
+                num1 = num1.concat(String.valueOf(chars[i]));
+                i++;
+            }
+            arithmeticSign = String.valueOf(chars[i]);
+            i++;
+            num2 = String.copyValueOf(chars, i,
+                    chars.length - (num1.length() + arithmeticSign.length())) ;
+
+            arrayOfDecision[0] = num1;
+            arrayOfDecision[1] = arithmeticSign;
+            arrayOfDecision[2] = num2;
+            return arrayOfDecision;
+        } catch (Exception e) {
+            throw new IOException ("Invalid data");
+        }
     }
 
 
